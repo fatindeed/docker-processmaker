@@ -1,0 +1,21 @@
+version: "2"
+services:
+  processmaker:
+    image: fatindeed/processmaker
+    build:
+      context: .
+      args:
+        ALPINE_MIRROR: https://mirrors.aliyun.com
+        COMPOSER_MIRROR: https://mirrors.aliyun.com/composer/
+        # COMPOSER_MIRROR: https://mirrors.huaweicloud.com/repository/php/
+        TIMEZONE: Asia/Shanghai
+    volumes:
+      - ${PWD}/processmaker.env:/var/www/html/.env
+      - ${PWD}/storage:/var/www/html/storage
+  db:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+  redis:
+    image: redis:alpine
